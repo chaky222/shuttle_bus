@@ -1,0 +1,9 @@
+<% if item.errors.any? %>
+  <div class="row my_error_messages_main_row">
+    <% item.errors.full_messages.each do |message| %>
+      <div class='col-12 bg-warning'>
+        <%= message %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

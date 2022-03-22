@@ -1,0 +1,33 @@
+<div class='row front_content_main_row modal_edit_main_row'>
+  <div class="w500_centerd" id="content">
+    <div class="row front_page_content_row">
+      <div class="col-12">
+        <div class="row hidden_in_modal">
+          <div class="col-12">
+            <h4>MyPayoutOptionPage</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <%= render "/layouts/my_error_messages_row", item: @current_my_payout_option_item %>
+            <div class="row">
+              <div class="col-12">
+                <a class='item_name_link' href="<%= edit_profile_my_payout_option_path(@current_my_payout_option_item.id) %>">
+                  <%= @current_my_payout_option_item.payout_name_for_client.ehtml %>
+                </a><br/><br/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row hidden_in_modal">
+          <div class="col-12">
+            <br /><br /><br /><br /><br /><br />
+            <%= link_to "Back to payout options list page", profile_my_payout_options_path %>
+            <br/><br/><br/><br/><br/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

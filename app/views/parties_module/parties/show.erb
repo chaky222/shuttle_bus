@@ -1,0 +1,117 @@
+<div class='row front_content_main_row front_parties_edit_main_row'>
+  <div class="col-12 sm_no_padding row_np3" id="content">
+    <div class="container">
+      <div class="event_card_main_block">
+        <form class="event_card_page_wrapper" method="GET" action='/cart/add/<%= @front_side_current_party.id %>'>
+          <div class="card_slider product_card_slider">
+            <div class="card_main_slider synchronized_2_sliders" sync_slider_id='0'>
+              <a href="#" class='open_card_imgs_galery_btn' title="Open image in new tab" target="_blank"></a>
+              <div class="owl-carousel owl-theme sync_large_slider">
+                <% @front_side_current_party.valid_event_imgs.each do |big_img| %>
+                  <div class='item'>
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <img class='slider_sm_img' src='<%= url_for(big_img.image_file) %>' />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                <% end %>
+              </div>
+              <div class="owl-carousel owl-theme sync_small_slider">
+                <% @front_side_current_party.valid_event_imgs.each do |sm_img| %>
+                  <div class='item'>
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <img class='slider_sm_img' src='<%= sm_img.image_sm_url %>' />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <div class="event_card_info card_info_main_block">
+            <link itemprop="availability" href="http://schema.org/InStock" />
+            <meta itemprop="price" content="{price_conv_html}" />
+            <div class="row">
+              <div class="col-12">
+                <div class="event_card_title">
+                  Event <%= @front_side_current_party.name.to_s.ehtml %>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="event_id small-text">EventID: <span><%= @front_side_current_party.id %></span></div>
+              </div>
+              <div class="col-6 text-right">
+                <div class="event_stars">
+                  <img src="/pics/stars.png" alt="Product raiting" />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="available small-text"><%= @front_side_current_party.availability_html %></div>
+              </div>
+            </div>
+            <% if @front_side_current_party.have_tickets_for_sale? %>
+              <div class="row event_ticket_packs_row">
+                <div class="col-12">
+                  <% @front_side_current_party.event_ticket_packs.each do |tpack| %>
+                    <div class="row event_tpack_row">
+                      <div class="col-6">
+                        <div class="event_tpack_info_block">
+                          <span><%= tpack.name.to_s.ehtml %>(<%= tpack.event_ticket_pack_type.to_s.ehtml %>)</span>
+                          <small>Sold: <%= tpack.tickets_sold_cnt %>&nbsp;/&nbsp;<%= tpack.pack_capacity %></small>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <a href="<%= new_profile_my_ticket_path() %>?tpack_id=<%= tpack.id %>" class='btn btn-sm btn-outline-success' onclick="return show_in_modal_link(this, 'proj_modal_main client_tpack_buy_modal');" name="event_tpack_buy_<%= tpack.id %>" >
+                          Buy ticket <%= tpack.ticket_cost_eur.to_price_html("EUR") %>
+                        </a>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 text-right">
+                  <!--noindex-->
+                    <a href="<%= party_tickets_path(@front_side_current_party.id) %>" class='btn btn-success btn-sm' onclick="return show_in_modal_link(this, 'proj_modal_main client_tpacks_modal');" name="event_tpacks_<%= @front_side_current_party.id %>">
+                      Choose ticket
+                    </a>
+                  <!--/noindex-->
+                </div>
+              </div>
+            <% end %>
+            <% if current_user && Ticket.for_event(@front_side_current_party).where(user: current_user).any? %>
+              <div class="row">
+                <div class="col-6 text-right">
+                  <!--noindex-->
+                    <br/><br/><br/>
+                    <a href="<%= chat_party_path(@front_side_current_party.id) %>" class='btn btn-outline-success btn-sm' onclick="return show_in_modal_link(this, 'proj_modal_main client_event_chat_modal');" name="event_chat_<%= @front_side_current_party.id %>">
+                      Lets chat!
+                    </a>
+                  <!--/noindex-->
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </form>
+        <div class="card-tabs-wrapper">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

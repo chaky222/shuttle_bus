@@ -1,0 +1,57 @@
+<div class='row front_content_main_row profile_event_edit_main_row'>
+  <div class="w350_centerd" id="content">
+    <div class="row front_page_content_row">
+      <div class="col-12">
+        <%= form_for(@item, url: { action: :update }, html: { class: "row front_edit_form" }) do |f| %>
+          <div class="col-12">
+            <%= render "/layouts/my_error_messages_row", item: @item %>
+            <div class="row">
+              <div class="col-12">
+                <div class="field form-group">
+                  <label>TicketsPack type:</label><br />
+                  <span class='show_item_value'><%= @item.event_ticket_pack_type.to_s.ehtml %></span>
+                </div>
+                <div class="field form-group">
+                  <label>EventTicketPack name</label><br />
+                  <span class='show_item_value'><%= @item.name.to_s.ehtml %></span>
+                </div>
+                <div class="field form-group">
+                  <label>Max tickets count for sold in this pack</label><br />
+                  <span class='show_item_value'><%= @item.pack_capacity.to_s.ehtml %></span>
+                </div>
+                <div class="field form-group">
+                  <label>One ticket cost, EUR</label><br />
+                  <span class='show_item_value'><%= @item.ticket_cost_eur.to_s.ehtml %> EUR</span>
+                </div>
+                <div class="field form-group">
+                  <label>TicketsPack sell rule:</label><br />
+                  <span class='show_item_value'><%= @item.event_ticket_pack_sale_rule.to_s.ehtml %></span>
+                </div>
+                <div class="field form-group">
+                  <label>Sold tickets cnt:</label><br />
+                  <span class='show_item_value'><%= @item.tickets_sold_cnt.to_s.ehtml %></span>
+                </div>
+                <div class="field form-group">
+                  <label>Payments fail tickets cnt:</label><br />
+                  <span class='show_item_value'><%= @item.tickets_pay_fail_cnt.to_s.ehtml %></span>
+                </div>
+                <div class="form-group">
+                  <label>&nbsp;</label><br />
+                  <%= link_to "Edit this TicketsPack", edit_profile_my_event_tickets_pack_path(@current_my_event.id, @item.id), class: 'btn btn-sm btn-outline-success' %>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <br /><br /><br /><br /><br /><br />
+                <%= link_to "Back to the list of TicketsPacks", profile_my_event_tickets_packs_path(@current_my_event.id) %>
+                <br/><br/><br/><br/><br/>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
