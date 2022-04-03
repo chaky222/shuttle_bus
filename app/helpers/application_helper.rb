@@ -33,7 +33,7 @@ module ApplicationHelper
   end
 
   def user_avatar_html(user)
-    img = image_tag(user.avatar_sm.present? ? user.avatar_sm : '/pics/user_no_image.png')
+    img = image_tag(user.avatar.present? ? url_for(user.avatar) : user.class.no_profile_avatar_sm_url)
     "<div class='user_avatar_block'>#{ img }</div>".html_safe
   end
 

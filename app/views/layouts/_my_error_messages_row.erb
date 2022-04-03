@@ -1,8 +1,8 @@
 <% if item.errors.any? %>
   <div class="row my_error_messages_main_row">
-    <% item.errors.full_messages.each do |message| %>
+    <% item.errors.each do |field, val| %>
       <div class='col-12 bg-warning'>
-        <%= message %>
+        <%= field.to_s.ehtml %>: <%= val.to_s.ehtml %>
       </div>
     <% end %>
   </div>

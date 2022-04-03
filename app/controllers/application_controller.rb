@@ -7,7 +7,16 @@ class ::ActionController::Base
   helper_method :from_modal?
   def from_modal?; params[:dialog_wnd_id].to_s.size_positive?; end
   helper_method :main_data
-  def main_data; @main_data_storage ||= { title: 'ShuttleBus' }; @main_data_storage; end
+  def main_data
+    @main_data_storage ||= { title: 'ShuttleBus' };
+    if @main_data_storage[:title].eql?('ShuttleBus')
+      lbread = breadcrumbs_on_rails.last
+      if lbread
+        @main_data_storage[:title] = lbread.name
+      end
+    end
+    @main_data_storage
+  end
 
   def redirect_to(options = {}, response_status = {})
     dst = "#{ Rails.application.secrets.default_url_options[:host] }:#{ Rails.application.secrets.default_url_options[:port] }"

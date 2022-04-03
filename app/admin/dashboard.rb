@@ -92,13 +92,13 @@ ActiveAdmin.register_page "Dashboard" do
               tbody do
                 tr do
                   td do
-                    minimum_user_age
+                    # minimum_user_age
                   end
                   td do
-                    maximum_user_age
+                    # maximum_user_age
                   end
                   td do
-                    average_user_age
+                    # average_user_age
                   end
                 end
               end

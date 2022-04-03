@@ -24,6 +24,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :trips, module: :pub_trips, param: :tr_id, only: [:index, :show] do
+    resources :points, param: :trp_id, only: [:index, :show] do
+
+    end
+  end
+
 
   get  '/profile'                             , to: 'front_profile#user_profile_show', as: :user_root
   get  '/profile/public_info'                 , to: 'front_profile#user_profile_public_info_edit'
@@ -45,12 +51,51 @@ Rails.application.routes.draw do
   get  "/payment_cancel/:ticket_payment_id" , to: 'pages#ticket_transaction_payment_cancel'
 
 
+  get '/vehicle_img_sm/:vimg_id', :controller => :pages, action: :pub_vehicle_sm_img
+  get '/user_station_img_sm/:simg_id', :controller => :pages, action: :pub_user_station_sm_img
+
   namespace :profile, format: false do
     resources :my_payout_options, module: :my_payout_options, param: :poption_id
     resources :my_notifications, module: :my_notifications, param: :my_notification_id, only: [:index, :show]
     resources :my_tickets, module: :my_tickets, param: :ticket_id, only: [:index, :new, :show, :create, :update] do
       get :pay
     end
+    resources :my_vehicles, module: :my_vehicles, param: :my_vehicle_id do
+      resources :vehicle_imgs, param: :eimg_id, only: %w{index create destroy} do
+
+      end
+      member do
+        post :choose_vimage_as_logo
+      end
+    end
+
+    resources :my_stations, module: :my_stations, param: :my_station_id do
+      resources :station_imgs, param: :simg_id, only: %w{index create destroy} do
+
+      end
+      member do
+        post :choose_simage_as_logo
+      end
+    end
+
+    resources :my_routes, module: :my_routes, param: :my_route_id do
+      resources :route_points, param: :rp_id do
+
+      end
+      # member do
+      #   post :choose_simage_as_logo
+      # end
+    end
+
+    resources :my_trips, module: :my_trips, param: :my_trip_id do
+      resources :trip_points, param: :trp_id do
+
+      end
+      # resources :route_points, param: :rp_id do
+
+      # end
+    end
+
     resources :my_events, module: :my_events, param: :my_event_id do
       resources :tickets_packs, param: :tpack_id do
 

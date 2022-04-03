@@ -71,4 +71,58 @@ class PagesController < ApplicationController
   def get_user_avatar_sm_url(user)
     user.avatar.attached? ? url_for(user.avatar) : ::User.no_profile_avatar_sm_url
   end
+
+  def pub_user_station_sm_img
+    img = UserStationImg.find(Integer(params[:simg_id].to_i))
+    if img
+      if img.image_file.attached?
+        processed = ImageProcessing::MiniMagick.source(img.image_file_disk_path).resize_to_limit(90, 90).strip.call
+        if processed
+          acceptable_types = ["image/jpeg", "image/png"]
+          if acceptable_types.include?(MIME::Types.type_for(processed.path).first.content_type)
+            contents = processed.read
+            File.delete(processed.path) if File.exist?(processed.path)
+            response.headers["Cache-Control"] = "public, max-age=#{2.days.to_i}"
+            response.headers.delete("Pragma")
+            return send_data(contents, :filename => 'sm_' + img.name, :disposition => 'inline')
+          else
+            img.errors.add(:image_file, 'converted mime_type not allowed')
+          end
+        else
+          img.errors.add(:image_file, 'convert to SM fail')
+        end
+      else
+        img.errors.add(:image_file, 'not_attached')
+      end
+      return error_response(img.errors.messages, :unprocessable_entity)
+    end
+    head :not_found
+  end
+
+  def pub_vehicle_sm_img
+    img = VehicleImg.find(Integer(params[:vimg_id].to_i))
+    if img
+      if img.image_file.attached?
+        processed = ImageProcessing::MiniMagick.source(img.image_file_disk_path).resize_to_limit(140, 140).strip.call
+        if processed
+          acceptable_types = ["image/jpeg", "image/png"]
+          if acceptable_types.include?(MIME::Types.type_for(processed.path).first.content_type)
+            contents = processed.read
+            File.delete(processed.path) if File.exist?(processed.path)
+            response.headers["Cache-Control"] = "public, max-age=#{2.days.to_i}"
+            response.headers.delete("Pragma")
+            return send_data(contents, :filename => 'sm_' + img.name, :disposition => 'inline')
+          else
+            img.errors.add(:image_file, 'converted mime_type not allowed')
+          end
+        else
+          img.errors.add(:image_file, 'convert to SM fail')
+        end
+      else
+        img.errors.add(:image_file, 'not_attached')
+      end
+      return error_response(img.errors.messages, :unprocessable_entity)
+    end
+    head :not_found
+  end
 end

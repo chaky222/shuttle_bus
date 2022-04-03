@@ -191,3 +191,11 @@ body[first_path="profile"] header.bg-dark, body[first_path="profile"] header .bg
 .sm_delault_link { display: inline-block; color: #0089d5; font: 400 12px sans-serif; cursor: pointer; text-decoration: underline; }
 .sm_delault_link:hover { text-decoration: none; }
 .field_with_errors .form-control, .field_with_errors input { border-color: red; }
+img.edit_sm_list_img { object-fit: contain; max-width: 100%; }
+.client_stamp_with_br_span { display: inline-block; text-align: center; font: 400 12px sans-serif; }
+.visit_time_span { display: inline-block; white-space: nowrap; vertical-align: middle; position: relative; }
+.visit_time_span .client_stamp_with_br_span { }
+.visit_time_delim { display: inline-block; line-height: 1.5; vertical-align: top; }
+.trip_publish_status[published="1"] span { font-weight: bold; color: lime; }
+
+

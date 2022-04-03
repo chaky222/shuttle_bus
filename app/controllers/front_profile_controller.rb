@@ -30,11 +30,12 @@ class FrontProfileController < PagesController
       processed = ImageProcessing::MiniMagick.source(new_avatar.tempfile).resize_to_limit(60, 60).strip.call
       if processed
         if item.avatar.attach(io: new_avatar.tempfile, filename: new_avatar.original_filename)
-          if item.avatar_sm.attach(io: processed, filename: 'sm_' + new_avatar.original_filename)
-            flash2 :success, 'Avatar changed'
-          else
-            item.errors.add(:avatar_sm, "Can not attach avatar_sm")
-          end
+          flash2 :success, 'Avatar changed'
+          # if item.avatar_sm.attach(io: processed, filename: 'sm_' + new_avatar.original_filename)
+          #   flash2 :success, 'Avatar changed'
+          # else
+          #   item.errors.add(:avatar_sm, "Can not attach avatar_sm")
+          # end
         else
           item.errors.add(:avatar, "Can not attach avatar")
         end
@@ -101,7 +102,7 @@ class FrontProfileController < PagesController
         current_subscription.send_message("Notifications already enabled")
         return render :json => { result: 0, err: "Already subscribed [#{ auth }]" }
       else
-        attrs = { push_subscription_data_json: JSON.parse(subs.to_h.to_json) }
+        attrs = { push_subscription_data_json: JSON.parse(subs.to_h.to_json).to_json }
         new_subscr = current_user.user_push_subscriptions.new(attrs)
         if new_subscr.send_message("Notifications enabled!") && new_subscr.save!
           return render :json => { result: 1 }

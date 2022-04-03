@@ -62,5 +62,9 @@ module ShuttleBus
       Devise::UnlocksController.layout "pages_main.html"
       Devise::PasswordsController.layout "pages_main.html"
     end
+
+    config.generators do |g|
+      g.orm :active_record, { primary_key_type: :unsigned_integer, options: "ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci" }
+    end
   end
 end

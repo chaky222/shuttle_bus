@@ -11,6 +11,10 @@ class User < ApplicationRecord
   # has_secure_password
   # has_one :profile, dependent: :destroy
   has_many :events, dependent: :destroy
+  has_many :vehicles, dependent: :destroy
+  has_many :user_stations, dependent: :destroy
+  has_many :user_routes, dependent: :destroy
+  has_many :trips, through: :user_routes
   has_many :event_chat_msg_unreads, dependent: :destroy
   has_many :user_push_subscriptions, dependent: :destroy
   has_many :user_notifications, dependent: :destroy

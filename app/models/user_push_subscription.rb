@@ -3,7 +3,9 @@
 class UserPushSubscription < ApplicationRecord
   belongs_to :user
   # serialize :push_subscription_data_json, Hash
-  def webpush_key_auth; push_subscription_data_json.to_h["keys"]["auth"].to_s; end
+  def push_subscription_data_h; push_subscription_data_json.to_json_h; end
+  def webpush_key_auth; push_subscription_data_h.to_h["keys"]["auth"].to_s; end
+
 
   def self.gen_dst_url_for_notification(url = "")
     dst = "#{ Rails.application.secrets.default_url_options[:host] }:#{ Rails.application.secrets.default_url_options[:port] }"
@@ -26,9 +28,9 @@ class UserPushSubscription < ApplicationRecord
             }
     attrs = { message: { title: 'ShuttleBus notification', body: msg, url: url, id: notification_id }.to_json,
               # message: JSON.generate(message),
-              endpoint: push_subscription_data_json.to_h["endpoint"].to_s,
-              p256dh: push_subscription_data_json.to_h["keys"]["p256dh"].to_s,
-              auth: push_subscription_data_json.to_h["keys"]["auth"].to_s,
+              endpoint: push_subscription_data_h.to_h["endpoint"].to_s,
+              p256dh: push_subscription_data_h.to_h["keys"]["p256dh"].to_s,
+              auth: push_subscription_data_h.to_h["keys"]["auth"].to_s,
               ttl: 24 * 60 * 60
             }
     send_result = Webpush.payload_send(attrs.merge({ vapid: vapid }))

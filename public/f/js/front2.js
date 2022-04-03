@@ -172,6 +172,42 @@ function syncPosition(el) {
   }
 }
 
+function fill_coords_from_gmaps_str(elem) {
+  let $d = $(elem).closest('.fill_coords_main_block');
+  let cur_lat = parseFloat($.trim($d.find('.fill_coords_lat').val()));
+  let cur_lng = parseFloat($.trim($d.find('.fill_coords_lng').val()));
+  let str = prompt('Set new lat and lng', cur_lat + ', ' + cur_lng);
+  if (str) {
+    let err_str = '';
+    if (str.length > 3) {
+      let arr = str.split(',');
+      if (arr.length === 2) {
+        let new_lat = parseFloat($.trim(arr[0]));
+        let new_lng = parseFloat($.trim(arr[1]));
+        if ((new_lat > -90) && (new_lat < 90)) {
+          if ((new_lng > -180) && (new_lat < 180)) {
+            $d.find('.fill_coords_lat').val(new_lat);
+            $d.find('.fill_coords_lng').val(new_lng);
+            return false;
+          } else {
+            err_str = 'Lng must be [-180..180]';
+          }
+        } else {
+          err_str = 'Lat must be [-90..90]';
+        }
+      } else {
+        err_str = 'In string must be at least one [,]';
+      }
+    } else {
+      err_str = 'Wrong input';
+    }
+    if (err_str.length > 0) {
+      alert(err_str);
+      return fill_coords_from_gmaps_str(elem);
+    }
+  }
+  return false;
+}
 
 function syncPosition2(el) {
   // let $d = $(el).closest('.synchronized_2_sliders');
