@@ -16,7 +16,7 @@ class ::Profile::MyRoutes::MyRoutesController < Profile::MyRoutes::MyRoutesBaseC
 
   def create
     main_data[:title] = "create MyRoute"
-    attrs = { starts_at_unix: (Time.now + 2.hours).localtime.to_i }
+    attrs = { }
     @item = current_user.user_routes.create(params.require(:user_route).permit(:name).merge(attrs))
     unless @item.errors.any?
       return success_redirect('Created', edit_profile_my_route_path(@item.id))
