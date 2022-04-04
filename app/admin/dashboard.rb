@@ -16,9 +16,9 @@ ActiveAdmin.register_page "Dashboard" do
             table do
               thead do
                 tr do
-                  th do
-                    No data
-                  end
+                  th { "No data" }
+                  th { "No data" }
+                  th { "No data" }
                 end
               end
               tbody do
