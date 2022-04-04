@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 # require 'mini_magick'
+# include Rails.application.routes.url_helpers
 
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
@@ -62,9 +63,9 @@ class User < ApplicationRecord
   #   ::Users::GetAvatarUrls.call(avatar) if avatar.attached?
   # end
 
-  # def sm_avatar_url
-  #   avatar_sm.attached? ? Rails.application.url_helpers.rails_blob_url(avatar_sm) : "/pics/no_image.png"
-  # end
+  def sm_avatar_url
+    avatar.attached? ? Rails.application.routes.url_helpers.url_for(avatar_thumb) : self.class.no_profile_avatar_sm_url
+  end
   # def user_born_time_unixtime; user_born_time.nil? ? nil : user_born_time.to_time.to_i; end
   # def created_at_unixtime; created_at.nil? ? nil : created_at.to_time.to_i; end
   def password_changed_at_unixtime; password_changed_at.nil? ? nil : password_changed_at.to_time.to_i; end

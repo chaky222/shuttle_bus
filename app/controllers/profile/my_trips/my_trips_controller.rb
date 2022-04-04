@@ -67,4 +67,20 @@ class ::Profile::MyTrips::MyTripsController < Profile::MyTrips::MyTripsBaseContr
     return success_redirect('Deleted', profile_my_trips_path())
   end
 
+  def publish_flag
+    @item = @current_my_trip
+    add_breadcrumb "Publish", publish_flag_profile_my_trip_path(@item.id)
+    main_data[:title] = "Publish trip \##{ @item.id }"
+  end
+
+  def publish_flag_update
+    @item = @current_my_trip
+    add_breadcrumb "Publish", publish_flag_profile_my_trip_path(@item.id)
+    main_data[:title] = "Publish trip \##{ @item.id }"
+    if @item.update({ published: params[:new_publish_flag].to_i })
+      return success_redirect('Published', profile_my_trip_path(@item.id))
+    end
+    flash2 :alert, "Errors found"
+    render action: :publish_flag
+  end
 end

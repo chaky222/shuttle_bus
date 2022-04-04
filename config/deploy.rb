@@ -7,7 +7,7 @@ set :repo_url,        'git@github.com:chaky222/shuttle_bus.git'
 set :application,     'shuttle_bus'
 
 # If using Digital Ocean's Ruby on Rails Marketplace framework, your username is 'rails'
-set :user,            'sbus'
+set :user,            'staging_guy'
 set :puma_threads,    [2, 4]
 set :puma_workers,    0
 

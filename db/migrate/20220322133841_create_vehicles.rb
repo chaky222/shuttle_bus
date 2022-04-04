@@ -59,14 +59,26 @@ class CreateVehicles < ActiveRecord::Migration[6.0]
     end
 
     create_table :trips, { id: :unsigned_integer, options: "ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci" } do |t|
-      t.references :vehicle   , null: false, foreign_key: true, index: true
-      t.references :user_route, null: false, foreign_key: true, index: true
+      t.references :vehicle   , null: false, foreign_key: true, index: true, :unsigned => true
+      t.references :user_route, null: false, foreign_key: true, index: true, :unsigned => true
       t.bigint :starts_at_unix, null: false, default: 0, :unsigned => true
       t.integer :published, limit: 1, null: false, default: 0, :unsigned => true
       t.integer :all_trip_tickets_cnt, limit: 4, null: false, default: 0, :unsigned => true
       t.text :search_text
       t.datetime :deleted_at
       t.timestamps null: false
+    end
+
+    create_table :trip_chat_msgs, { id: :unsigned_integer, options: "ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci" } do |t|
+      t.references :trip, null: false, foreign_key: true, index: true, :unsigned => true
+      t.references :user, null: false, foreign_key: true, index: true, :unsigned => true
+      t.text :msg_html
+      t.timestamps null: false
+    end
+
+    create_table :trip_chat_msg_unreads, { id: :unsigned_integer, options: "ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci" } do |t|
+      t.references :trip_chat_msg, null: false, foreign_key: true, index: true, :unsigned => true
+      t.references :user         , null: false, foreign_key: true, index: true, :unsigned => true
     end
   end
 end

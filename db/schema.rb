@@ -247,6 +247,37 @@ ActiveRecord::Schema.define(version: 2022_03_22_133841) do
     t.index ["ticket_id"], name: "index_tickets_payments_on_ticket_id"
   end
 
+  create_table "trip_chat_msg_unreads", id: :integer, unsigned: true, options: "ENGINE=MyISAM DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "trip_chat_msg_id", null: false, unsigned: true
+    t.bigint "user_id", null: false, unsigned: true
+    t.index ["trip_chat_msg_id"], name: "index_trip_chat_msg_unreads_on_trip_chat_msg_id"
+    t.index ["user_id"], name: "index_trip_chat_msg_unreads_on_user_id"
+  end
+
+  create_table "trip_chat_msgs", id: :integer, unsigned: true, options: "ENGINE=MyISAM DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "trip_id", null: false, unsigned: true
+    t.bigint "user_id", null: false, unsigned: true
+    t.text "msg_html"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["trip_id"], name: "index_trip_chat_msgs_on_trip_id"
+    t.index ["user_id"], name: "index_trip_chat_msgs_on_user_id"
+  end
+
+  create_table "trips", id: :integer, unsigned: true, options: "ENGINE=MyISAM DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "vehicle_id", null: false, unsigned: true
+    t.bigint "user_route_id", null: false, unsigned: true
+    t.bigint "starts_at_unix", default: 0, null: false, unsigned: true
+    t.integer "published", limit: 1, default: 0, null: false, unsigned: true
+    t.integer "all_trip_tickets_cnt", default: 0, null: false, unsigned: true
+    t.text "search_text"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_route_id"], name: "index_trips_on_user_route_id"
+    t.index ["vehicle_id"], name: "index_trips_on_vehicle_id"
+  end
+
   create_table "user_notifications", options: "ENGINE=MyISAM DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id"
     t.text "notification_msg_text"
@@ -266,12 +297,12 @@ ActiveRecord::Schema.define(version: 2022_03_22_133841) do
     t.index ["user_id"], name: "index_user_push_subscriptions_on_user_id"
   end
 
-  create_table "user_route_points", options: "ENGINE=MyISAM DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.bigint "user_route_id", null: false
-    t.bigint "user_station_id", null: false
-    t.integer "after_start_planned_seconds", default: 0, null: false
-    t.integer "station_stay_seconds", default: 0, null: false
-    t.integer "tickets_cnt", default: 0, null: false
+  create_table "user_route_points", id: :integer, unsigned: true, options: "ENGINE=MyISAM DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "user_route_id", null: false, unsigned: true
+    t.bigint "user_station_id", null: false, unsigned: true
+    t.integer "after_start_planned_seconds", default: 0, null: false, unsigned: true
+    t.integer "station_stay_seconds", default: 0, null: false, unsigned: true
+    t.integer "tickets_cnt", default: 0, null: false, unsigned: true
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -279,24 +310,20 @@ ActiveRecord::Schema.define(version: 2022_03_22_133841) do
     t.index ["user_station_id"], name: "index_user_route_points_on_user_station_id"
   end
 
-  create_table "user_routes", options: "ENGINE=MyISAM DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "user_routes", id: :integer, unsigned: true, options: "ENGINE=MyISAM DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name", limit: 240, default: "", null: false
-    t.bigint "user_id", null: false
-    t.bigint "vehicle_id", null: false
-    t.integer "published", limit: 1, default: 0, null: false
+    t.bigint "user_id", null: false, unsigned: true
+    t.text "route_description_text"
     t.text "route_props_text"
-    t.text "search_text"
-    t.bigint "starts_at_unix", default: 0, null: false
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_user_routes_on_user_id"
-    t.index ["vehicle_id"], name: "index_user_routes_on_vehicle_id"
   end
 
-  create_table "user_station_imgs", options: "ENGINE=MyISAM DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.bigint "user_station_id", null: false
-    t.integer "prio", default: 0, null: false
+  create_table "user_station_imgs", id: :integer, unsigned: true, options: "ENGINE=MyISAM DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "user_station_id", null: false, unsigned: true
+    t.integer "prio", default: 0, null: false, unsigned: true
     t.text "name"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
@@ -304,13 +331,15 @@ ActiveRecord::Schema.define(version: 2022_03_22_133841) do
     t.index ["user_station_id"], name: "index_user_station_imgs_on_user_station_id"
   end
 
-  create_table "user_stations", options: "ENGINE=MyISAM DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "user_stations", id: :integer, unsigned: true, options: "ENGINE=MyISAM DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", limit: 240, default: "", null: false
-    t.bigint "user_id", null: false
+    t.bigint "user_id", null: false, unsigned: true
     t.text "station_description_text"
     t.text "station_props_text"
     t.integer "station_lat", default: 0, null: false
     t.integer "station_lng", default: 0, null: false
+    t.float "station_lat_f64", limit: 53, default: 0.0, null: false
+    t.float "station_lng_f64", limit: 53, default: 0.0, null: false
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -354,9 +383,9 @@ ActiveRecord::Schema.define(version: 2022_03_22_133841) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", length: 8
   end
 
-  create_table "vehicle_imgs", options: "ENGINE=MyISAM DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.bigint "vehicle_id", null: false
-    t.integer "prio", default: 0, null: false
+  create_table "vehicle_imgs", id: :integer, unsigned: true, options: "ENGINE=MyISAM DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "vehicle_id", null: false, unsigned: true
+    t.integer "prio", default: 0, null: false, unsigned: true
     t.text "name"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
@@ -364,9 +393,10 @@ ActiveRecord::Schema.define(version: 2022_03_22_133841) do
     t.index ["vehicle_id"], name: "index_vehicle_imgs_on_vehicle_id"
   end
 
-  create_table "vehicles", options: "ENGINE=MyISAM DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "vehicles", id: :integer, unsigned: true, options: "ENGINE=MyISAM DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", limit: 240, default: "", null: false
-    t.bigint "user_id", null: false
+    t.bigint "user_id", null: false, unsigned: true
+    t.integer "vehicle_seats_cnt", default: 0, null: false, unsigned: true
     t.text "vehicle_description_text"
     t.text "vehicle_props_text"
     t.datetime "deleted_at"

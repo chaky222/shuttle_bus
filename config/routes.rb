@@ -28,6 +28,14 @@ Rails.application.routes.draw do
     resources :points, param: :trp_id, only: [:index, :show] do
 
     end
+    member do
+      get :chat
+      post :chat, to: 'trips#chat_add_msg'
+    end
+  end
+
+  resources :stations, module: :pub_stations, param: :st_id, only: [:index, :show] do
+
   end
 
 
@@ -90,6 +98,10 @@ Rails.application.routes.draw do
     resources :my_trips, module: :my_trips, param: :my_trip_id do
       resources :trip_points, param: :trp_id do
 
+      end
+      member do
+        get  :publish_flag
+        post :publish_flag, to: 'my_trips#publish_flag_update'
       end
       # resources :route_points, param: :rp_id do
 

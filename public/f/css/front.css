@@ -121,13 +121,14 @@ body {
 .event_price_in_card_block { font: 600 20px sans-serif; }
 
 .event_card_page_wrapper { display: inline-block; width: 100%; }
-body .event_card_main_block .card_slider { width: 90%; margin: 0 auto; margin: 0 0px 0 10px; display: inline-block; }
+body .event_card_main_block .card_slider { width: 90%; margin: 0 auto; margin: 0 0px 0 10px; display: inline-block;  }
 body .event_card_main_block .event_card_info { padding-top: 0px; width: 92%; margin: 0 auto; display: inline-block; }
 
 @media (min-width: 768px) {
   body .event_card_main_block .card_slider { width: 60%; margin: 0 10px 0 0px; vertical-align:top; }
   body .event_card_main_block .event_card_info { padding-top: 90px; max-width: 340px; width: 100%; vertical-align:top; }
   body .modal .event_card_main_block .card_slider { width: 100%; }
+  body .modal .event_card_main_block .event_card_info { padding-top: 0px; }
 }
 
 /*@media (min-width: 1050px) {*/

@@ -39,11 +39,8 @@
             <li class="nav-item <%= request.path.length > 3 ? '' : 'active' %>">
               <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item <%= request.path.start_with?('/admin/') ? 'active' : '' %>" >
-              <a class="nav-link" href="/admin/login">Admin</a>
-            </li>
-            <li class="nav-item <%= request.path.start_with?('/parties') ? 'active' : '' %>">
-              <a class="nav-link" href="/parties">Parties</a>
+            <li class="nav-item <%= request.path.start_with?('/trips') ? 'active' : '' %>">
+              <a class="nav-link" href="/trips">Trips</a>
             </li>
             <li class="nav-item <%= request.path.start_with?('/profile') ? 'active' : '' %>">
               <a class="nav-link" href="/profile">Profile</a>
@@ -51,7 +48,7 @@
           </ul>
           <ul class="navbar-nav ml-auto">
             <li class="nav-item nav_item_parties_search">
-              <form method="GET" action='/parties' class="form-inline">
+              <form method="GET" action='/trips' class="form-inline">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name='search' />
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
               </form>

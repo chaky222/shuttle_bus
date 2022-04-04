@@ -2,6 +2,7 @@
   <div class="w500_centerd" id="content">
     <div class="row front_page_content_row">
       <div class="col-12">
+        <%= render "/profile/my_trips/my_trips/user_profile_my_trip_publish_item_row", item: @item %>
         <%= form_for(@item, url: { action: :update }, html: { class: "row front_edit_form" }) do |f| %>
           <div class="col-12">
             <%= render "/layouts/my_error_messages_row", item: @item %>
@@ -70,41 +71,41 @@
             </div>
           </div>
         <% end %>
-
-        <div class="row">
-          <div class="col-12">
-            <table class="table table-sm">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>PointLogo</th>
-                  <th>TripPoint info</th>
-                  <th>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @item.user_route.valid_route_points.each_with_index do |rpoint, indx| %>
+        <% if @item.user_route %>
+          <div class="row">
+            <div class="col-12">
+              <table class="table table-sm">
+                <thead>
                   <tr>
-                    <td><%= indx + 1 %></td>
-                    <td>
-                      <img src="<%= rpoint.route_logo_sm_url %>" />
-                    </td>
-                    <td>
-                      Station: <%= rpoint.user_station.name.ehtml %><br/><br/>
-                      Visit: <%= rpoint.visit_time_html(@item.trip_start_time_unix_with_default) %>
-                    </td>
-                    <td>
-                      <a href="<%= profile_my_trip_trip_point_path(@item.id, rpoint.id) %>" class="fa fa-edit" aria-hidden="true" title='View route point info' onclick="return show_in_modal_link(this, 'proj_modal_main client_station_modal');"></a>
-                    </td>
+                    <th></th>
+                    <th>PointLogo</th>
+                    <th>TripPoint info</th>
+                    <th>
+                    </th>
                   </tr>
-                <% end %>
-              </tbody>
-            </table>
-            <br /><br /><br /><br />
+                </thead>
+                <tbody>
+                  <% @item.user_route.valid_route_points.each_with_index do |rpoint, indx| %>
+                    <tr>
+                      <td><%= indx + 1 %></td>
+                      <td>
+                        <img src="<%= rpoint.route_logo_sm_url %>" />
+                      </td>
+                      <td>
+                        Station: <%= rpoint.user_station.name.ehtml %><br/><br/>
+                        Visit: <%= rpoint.visit_time_html(@item.trip_start_time_unix_with_default) %>
+                      </td>
+                      <td>
+                        <a href="<%= profile_my_trip_trip_point_path(@item.id, rpoint.id) %>" class="fa fa-edit" aria-hidden="true" title='View route point info' onclick="return show_in_modal_link(this, 'proj_modal_main client_station_modal');"></a>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+              <br /><br /><br /><br />
+            </div>
           </div>
-        </div>
-
+        <% end %>
         <div class="row">
           <div class="col-12">
             <% if @item.deleted_at.nil? %>

@@ -71,7 +71,7 @@ end
   attrs = { vehicle_id: vehicle_id, user_route_id: u_route_id }
   trip_tmp = megatester.trips.find_by(attrs)
   unless trip_tmp
-    Trip.create!(attrs.merge({ starts_at_unix: (Time.now + 2.hours).localtime.to_i }))
+    Trip.create!(attrs.merge({ starts_at_unix: (Time.now + 2.hours).localtime.to_i, published: indx }))
   end
 end
 
