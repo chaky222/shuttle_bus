@@ -42,6 +42,9 @@
             <li class="nav-item <%= request.path.start_with?('/trips') ? 'active' : '' %>">
               <a class="nav-link" href="/trips">Trips</a>
             </li>
+            <li class="nav-item <%= request.path.start_with?('/stations') ? 'active' : '' %>">
+              <a class="nav-link" href="/stations">Stations</a>
+            </li>
             <li class="nav-item <%= request.path.start_with?('/profile') ? 'active' : '' %>">
               <a class="nav-link" href="/profile">Profile</a>
             </li>

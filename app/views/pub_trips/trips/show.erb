@@ -59,8 +59,11 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-6">
-                <div class="available small-text"><%= @item.publish_status_html %></div>
+              <div class="col-12">
+                <div class="available small-text"><%= @item.publish_status_html %></div> by user
+                <a href="<%= user_path(@item.user_route.user.id) %>" onclick="return show_in_modal_link(this, 'proj_modal_main user_modal');">
+                  <%= @item.user_route.user.name_or_email_for_public.ehtml %>
+                </a>
               </div>
             </div>
             <% if @item.trip_have_tickets_for_sale? %>
