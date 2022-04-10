@@ -2,6 +2,9 @@
 This is Andrew(chaky22222222@gmail.com) demo project.\
 You can try it on my own domain: [hw.dp.ua](https://hw.dp.ua).
 
+## Contacts
+* chaky22222222@gmail.com - always online, I use this email 24/7, Hangout accepted.
+* [linkedin](https://www.linkedin.com/in/andrey-ror-perl/) - I check this messages only once a week.
 
 ## Used
 MySQL, Rails6 + ActiveAdmin, JQuery, Bootstrap4
