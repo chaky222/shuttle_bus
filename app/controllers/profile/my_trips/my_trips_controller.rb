@@ -9,13 +9,13 @@ class ::Profile::MyTrips::MyTripsController < Profile::MyTrips::MyTripsBaseContr
   end
 
   def new
-    main_data[:title] = "new MyRoute"
+    main_data[:title] = "new MyTrip"
     @item = current_user.trips.new
     add_breadcrumb "New", new_profile_my_trip_path
   end
 
   def create
-    main_data[:title] = "create MyRoute"
+    main_data[:title] = "create MyTrip"
     new_trip_start_time  = Time.strptime(params[:trip_start_time], "%F %H:%M").localtime
     attrs = { starts_at_unix: new_trip_start_time.to_i }
     @item = Trip.create(params.require(:trip).permit(:user_route_id, :vehicle_id).merge(attrs))
@@ -33,7 +33,7 @@ class ::Profile::MyTrips::MyTripsController < Profile::MyTrips::MyTripsBaseContr
   def edit
     @item = @current_my_trip
     add_breadcrumb "Edit", edit_profile_my_trip_path(@item.id)
-    main_data[:title] = "Edit MyRoute \##{ @item.id }"
+    main_data[:title] = "Edit MyTrip \##{ @item.id }"
   end
 
   def update

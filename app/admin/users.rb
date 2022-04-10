@@ -5,7 +5,7 @@ ActiveAdmin.register User do
   permit_params attributes_to_display.map(&:to_sym)
   actions :index, :show
 
-  includes :avatar_attachment, :reviews
+  includes :avatar_attachment
 
   index do
     selectable_column
@@ -51,74 +51,16 @@ ActiveAdmin.register User do
       end
 
       column do
-        panel 'Created events' do
-          table_for resource.events do
-            column(:id) { |event| link_to(event.id, admin_event_path(event)) }
-            column :name
-            column :rating
-          end
-        end
-
-        panel 'Events were interested' do
-          table_for resource.ticketed_events do
-            column(:id) { |event| link_to(event.id, admin_event_path(event)) }
-            column :name
-            column :rating
-            column :message do |event|
-            end
+        panel 'Created trips' do
+          table_for resource.trips do
+            column(:id) { |x| link_to(x.id, admin_trip_path(x)) }
+            column(:name) { |x| x.user_route.name }
+            column :trip_start_time_with_default
           end
         end
       end
     end
 
-    columns do
-      column do
-        panel 'Created reports' do
-          table_for resource.created_reports do
-            column(:id) { |report| link_to(report.id, admin_report_path(report)) }
-            column :status
-            column :kind
-            column :reason
-          end
-        end
-      end
-
-      column do
-        panel 'Reports' do
-          table_for resource.reports do
-            column(:id) { |report| link_to(report.id, admin_report_path(report)) }
-            column :status
-            column :kind
-            column :reason
-          end
-        end
-      end
-    end
-
-    columns do
-      column do
-        panel 'Reviews' do
-          table_for resource.reviews.includes(:assessable) do
-            column(:id) { |event| link_to(event.id, admin_event_path(event)) }
-            column :assessable
-            column :rating
-            column :comment
-            column :reason
-          end
-        end
-      end
-      column do
-        panel 'Reviews as reviewer' do
-          table_for resource.reviews_as_reviewer.includes(:assessable) do
-            column(:id) { |event| link_to(event.id, admin_event_path(event)) }
-            column :assessable
-            column :rating
-            column :comment
-            column :reason
-          end
-        end
-      end
-    end
 
     active_admin_comments
   end

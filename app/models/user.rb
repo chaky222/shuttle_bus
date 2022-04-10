@@ -16,31 +16,14 @@ class User < ApplicationRecord
   has_many :user_stations, dependent: :destroy
   has_many :user_routes, dependent: :destroy
   has_many :trips, through: :user_routes
-  has_many :event_chat_msg_unreads, dependent: :destroy
+  has_many :trip_chat_msg_unreads, dependent: :destroy
   has_many :user_push_subscriptions, dependent: :destroy
   has_many :user_notifications, dependent: :destroy
   has_many :tickets, dependent: :destroy
-  has_many :event_ticket_pack, through: :tickets
-  has_many :ticketed_events, through: :event_ticket_pack, source: :event
-  has_many :payout_options, dependent: :destroy
-  # has_many :ticketed_events,  through: :tickets, source: :event, source_type: 'Event'
+  has_many :trip_ticket_pack, through: :tickets
+  has_many :ticketed_trips, through: :trip_ticket_pack, source: :trip
 
-  has_many :friend_requests_as_requestor, foreign_key: :requestor_id, dependent: :destroy, inverse_of: :requestor,
-    class_name: :FriendRequest
-  has_many :friend_requests_as_receiver, foreign_key: :receiver_id, dependent: :destroy, inverse_of: :receiver,
-    class_name: :FriendRequest
 
-  # rubocop:disable Rails/InverseOf
-  has_many :friends, ->(user) {
-    unscope(:where).where(id: Users::SelectFriendUsersIdsQuery.new(user).call)
-  }, class_name: 'User'
-  # rubocop:enable Rails/InverseOf
-
-  has_many :created_reports, foreign_key: :reporter_id, dependent: :destroy, class_name: :Report
-  has_many :reported_user_reports, foreign_key: :user_id, class_name: :ReportedUser
-  has_many :reports, through: :reported_user_reports
-  has_many :reviews, as: :assessable
-  has_many :reviews_as_reviewer, foreign_key: :reviewer_id, dependent: :destroy, class_name: :Review
 
   # has_one :user_serializer
   has_one_attached :avatar
@@ -176,9 +159,5 @@ class User < ApplicationRecord
 
   def avatar_thumb(size: 100)
     avatar.variant(resize: "#{size}x#{size}")
-  end
-
-  def friend?(user)
-    Users::CheckFriendshipQuery.new(self).friend?(user)
   end
 end

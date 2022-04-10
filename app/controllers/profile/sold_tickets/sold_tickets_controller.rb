@@ -4,9 +4,9 @@ class Profile::SoldTickets::SoldTicketsController < Profile::SoldTickets::SoldTi
   def index
     per_page = 12
     @statuses_arr = (params[:statuses] || []).map(&:to_i).compact
-    s_sql = ::PubPartiesSearchHelper.get_search_sql(params[:search].to_s, ['tickets.search_text'])
-    itms = Ticket.for_events_scope(current_user.events).where(s_sql)
-    itms = itms.where(ticket_status: @statuses_arr) if @statuses_arr.any?
+    s_sql = ::PubTripsSearchHelper.get_search_sql(params[:search].to_s, ['tickets.search_text'])
+    itms = Ticket.for_trips_scope(current_user.trips).where(s_sql)
+    itms = itms.where(slot_status: @statuses_arr) if @statuses_arr.any?
     @items = itms.order(id: :DESC).page(params_page).per(per_page)
   end
 
@@ -18,7 +18,7 @@ class Profile::SoldTickets::SoldTicketsController < Profile::SoldTickets::SoldTi
     item = @current_sold_ticket
     if params[:accept_slot].to_s.size_positive?
       if item.event_ticket_pack.tpack_can_try_give_a_slot?
-        if item.update(ticket_status: :slot_accepted)
+        if item.update(slot_status: :slot_accepted)
           attrs = { notification_msg_text: "Ticket accepted!", notification_data_json: { url: profile_my_ticket_path(item.id) } }
           user_notify = item.user.user_notifications.create!(attrs)
           user_notify.notification_run_send!
@@ -30,15 +30,15 @@ class Profile::SoldTickets::SoldTicketsController < Profile::SoldTickets::SoldTi
     end
 
     if params[:accept_with_bron].to_s.size_positive?
-      if item.update(ticket_status: :slot_taked)
+      if item.update(slot_status: :slot_taked)
         item.event_ticket_pack.unsafe_inc_tickets_slotted_cnt!(1)
         return success_redirect('Saved', profile_sold_ticket_path(item.id))
       end
     end
 
     if params[:decline_slot].to_s.size_positive?
-      old_status = item.ticket_status.to_s
-      if item.update(ticket_status: :slot_declined)
+      old_status = item.slot_status.to_s
+      if item.update(slot_status: :slot_declined)
         attrs2 = { notification_msg_text: "Ticket declined", notification_data_json: { url: profile_my_ticket_path(item.id) } }
         user_notify2 = item.user.user_notifications.create!(attrs2)
         user_notify2.notification_run_send!

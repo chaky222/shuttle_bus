@@ -47,7 +47,7 @@ class TicketsPayment < ApplicationRecord
             # puts "\n\n\n\nfresh_intent=[#{ fresh_intent.to_json }] \n\n\n\n"
             if fresh_intent.status.str_eq?("canceled")
               update!(gateway_payment_need_check: 0, response_data_json: arr.to_json)
-              ticket.event_ticket_pack.release_ticket_slot!
+              ticket.trip_ticket_pack.release_ticket_slot!
             else
               if reject_payment_if_not_done
                 canceled_intent = Stripe::PaymentIntent.cancel(ret_data.payment_intent.to_s)
@@ -55,7 +55,7 @@ class TicketsPayment < ApplicationRecord
                 arr.push(canceled_intent)
                 # raise("TMP STOP 234243432.")
                 update!(gateway_payment_need_check: 0, response_data_json: arr.to_json)
-                ticket.event_ticket_pack.release_ticket_slot!
+                ticket.trip_ticket_pack.release_ticket_slot!
               else
                 checkout_url = ret_data.url
                 # puts "\n\n\n\n TMP STOP 234321132. checkout_url=[#{ checkout_url }] \n\n\n fresh_intent=[#{ fresh_intent.inspect }] \n\n\n\n"
@@ -64,7 +64,7 @@ class TicketsPayment < ApplicationRecord
           end
         else
           update!(gateway_payment_need_check: 0, response_data_json: arr.to_json)
-          ticket.event_ticket_pack.release_ticket_slot!
+          ticket.trip_ticket_pack.release_ticket_slot!
         end
       end
     end
@@ -93,8 +93,8 @@ class TicketsPayment < ApplicationRecord
           if refund_data.status.to_s.str_eq?("succeeded")
             # puts "\n\n\n\n\n refund succeeded!!! \n\n\n\n"
             update!(amount_refunded_cts: refund_amount_cts)
-            ticket.update!(ticket_status: :slot_canceled)
-            ticket.event_ticket_pack.release_ticket_slot!
+            ticket.update!(slot_status: :slot_canceled)
+            ticket.trip_ticket_pack.release_ticket_slot!
             return true
           else
             update!(response_data_json: response_data_arr.push(ret_data).to_json)

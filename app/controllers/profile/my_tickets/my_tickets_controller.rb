@@ -30,7 +30,7 @@ class Profile::MyTickets::MyTicketsController < Profile::MyTickets::MyTicketsBas
                search_text: [@tpack.event.name, @tpack.event.description].join(' ').to_search_text }
     if @tpack.tpack_can_try_give_a_slot?
       if @tpack.ticket_slot_need_confirmation?
-        ticket = @tpack.tickets.create!(tattrs.merge({ ticket_status: :slot_asked }))
+        ticket = @tpack.tickets.create!(tattrs.merge({ slot_status: :slot_asked }))
         return success_redirect("Ticked ordered. You must pay it when owner will accept it.", profile_my_ticket_path(ticket.id))
       else
         # puts "\n\n\n\n NO!!! event_ticket_pack_sale_rule_with_confirmation \n\n\n\n"
@@ -41,7 +41,7 @@ class Profile::MyTickets::MyTicketsController < Profile::MyTickets::MyTicketsBas
           if ticket.try_take_slot_in_tpack!
             payment_session = create_payment_session_for_ticket!(ticket)
             # attrs2 = { gateway_name: :stripe, amount_cts: ticket.cost_eur_cts, currency: 'EUR' }
-            # new_transaction = ticket.tickets_payments.create!(attrs2)
+            # new_transaction = ticket.ticket_payments.create!(attrs2)
 
             # session = Stripe::Checkout::Session.create({
             #   payment_method_types: ['card'],
@@ -97,7 +97,7 @@ class Profile::MyTickets::MyTicketsController < Profile::MyTickets::MyTicketsBas
 
   def create_payment_session_for_ticket!(ticket)
     attrs2 = { gateway_name: :stripe, amount_cts: ticket.cost_eur_cts, currency: 'EUR' }
-    new_transaction = ticket.tickets_payments.create!(attrs2)
+    new_transaction = ticket.ticket_payments.create!(attrs2)
 
     session = Stripe::Checkout::Session.create({
       payment_method_types: ['card'],
@@ -127,9 +127,9 @@ class Profile::MyTickets::MyTicketsController < Profile::MyTickets::MyTicketsBas
   def update
     item = @current_my_ticket_item
     if params[:try_pay].to_s.size_positive?
-      if item.event_ticket_pack.tpack_can_try_give_a_slot? || item.ticket_status_slot_taked?
+      if item.event_ticket_pack.tpack_can_try_give_a_slot? || item.slot_status_slot_taked?
         if item.ticket_need_payment?
-          if item.ticket_status_slot_taked? || item.try_take_slot_in_tpack!
+          if item.slot_status_slot_taked? || item.try_take_slot_in_tpack!
             payment_session = create_payment_session_for_ticket!(item)
             return redirect_to payment_session.url, :status => 303
           end
@@ -142,8 +142,8 @@ class Profile::MyTickets::MyTicketsController < Profile::MyTickets::MyTicketsBas
 
     if params[:ask_again].to_s.size_positive?
       unless item.ticket_fully_payed?
-        unless item.ticket_status_id >= 10
-          if item.update(ticket_status: :slot_asked)
+        unless item.slot_status_id >= 10
+          if item.update(slot_status: :slot_asked)
             return success_redirect('Saved', profile_my_ticket_path(item.id))
           end
         end
@@ -166,7 +166,7 @@ class Profile::MyTickets::MyTicketsController < Profile::MyTickets::MyTicketsBas
     refund_id = params.keys.find { |x| x.to_s.starts_with?('try_refund_') }.to_s.delete_prefix('try_refund_').to_i || 0
     if refund_id.positive?
       if item.ticket_can_be_refunded?
-        ticket_payment_for_refund = item.tickets_payments.find { |x| x.id.eql?(refund_id) }
+        ticket_payment_for_refund = item.ticket_payments.find { |x| x.id.eql?(refund_id) }
         if ticket_payment_for_refund && ticket_payment_for_refund.try_refund_ticket_payment!
           return success_redirect('Refund success', profile_my_ticket_path(item.id))
         end

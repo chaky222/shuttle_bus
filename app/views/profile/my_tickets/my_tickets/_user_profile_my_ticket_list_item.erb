@@ -12,7 +12,7 @@
           <a class='ticket_name_link' href="<%= profile_my_ticket_path(item.id) %>">
             <%= item.client_ticket_name_html %>
           </a><br />
-          <%= item.client_ticket_status_html %><br />
+          <%= item.client_slot_status_html %><br />
 
           <div class="ticket_item_price">
              <span class='text-nowrap'><%= item.event_ticket_pack.ticket_cost_eur.to_price_html("EUR") %></span>

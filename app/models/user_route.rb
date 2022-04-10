@@ -19,4 +19,10 @@ class UserRoute < ApplicationRecord
   def valid_route_points; user_route_points.select { |x| x.point_valid? }; end
   def image_sm_url; "/user_route_img_sm/#{ id }?v=#{ updated_at.to_i }"; end
   def valid_points_imgs; valid_route_points.map { |x| x.user_station.valid_station_imgs.first }.compact; end
+
+  def route_run_seconds
+    return 0 unless user_route_points.any?
+    last_point = user_route_points.last
+    last_point.after_start_planned_seconds + last_point.station_stay_seconds
+  end
 end

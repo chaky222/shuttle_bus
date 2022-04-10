@@ -17,7 +17,7 @@
           <a class='ticket_event_link' href="<%= profile_my_event_path(item.event_ticket_pack.event.id) %>" onclick="return show_in_modal_link(this, 'proj_modal_main profile_my_event_modal');" name='profile_my_event_<%= item.event_ticket_pack.event.id %>' >
             Event: <%= item.event_ticket_pack.event.name.ehtml %>
           </a><br />
-          <%= item.client_ticket_status_html %><br />
+          <%= item.client_slot_status_html %><br />
           created_at: <%= item.created_at.client_stamp_html %><br />
         </div>
       </div>

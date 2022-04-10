@@ -27,7 +27,7 @@
               </div>
             <% end %>
             <% if @current_my_ticket_item.ticket_need_payment? %>
-              <% if @current_my_ticket_item.event_ticket_pack.tpack_can_try_give_a_slot? || @current_my_ticket_item.ticket_status_slot_taked? %>
+              <% if @current_my_ticket_item.event_ticket_pack.tpack_can_try_give_a_slot? || @current_my_ticket_item.slot_status_slot_taked? %>
                 <div class="row">
                   <div class="col-12">
                     <% if @current_my_ticket_item.event_ticket_pack.event.visibility_status_published? %>
@@ -37,10 +37,10 @@
                     <% end %>
                     <% if @current_my_ticket_item.ticket_fully_payed? %>
                       <span class='text-danger'>
-                        <b>Ticket status: <%= @current_my_ticket_item.ticket_status %>.</b>
+                        <b>Ticket status: <%= @current_my_ticket_item.slot_status %>.</b>
                       </span><br />
                     <% else %>
-                      <% if @current_my_ticket_item.ticket_status_slot_accepted? %>
+                      <% if @current_my_ticket_item.slot_status_slot_accepted? %>
                         <span class='text-success'>
                           Event owner accepted you to buy the ticket. Now you can pay it.
                         </span><br />
@@ -52,13 +52,13 @@
                         <span class='text-danger'>
                           Your payment fail. Now you can try to pay it again.
                         </span><br />
-                      <% elsif @current_my_ticket_item.ticket_status_slot_taked? %>
+                      <% elsif @current_my_ticket_item.slot_status_slot_taked? %>
                         <span class='text-danger'>
                           This ticket need payment.
                         </span><br />
                       <% else %>
                         <span class='text-danger'>
-                          <b>Ticket status: <%= @current_my_ticket_item.ticket_status %>.</b>
+                          <b>Ticket status: <%= @current_my_ticket_item.slot_status %>.</b>
                         </span><br />
                       <% end %>
                     <% end %>
@@ -72,9 +72,9 @@
               <% end %>
             <% else %>
               <span class='text-success'>
-                <b>Ticket status: <%= @current_my_ticket_item.ticket_status %>.</b>
+                <b>Ticket status: <%= @current_my_ticket_item.slot_status %>.</b>
               </span><br />
-              <% if @current_my_ticket_item.ticket_status_slot_canceled? || @current_my_ticket_item.ticket_status_slot_declined? %>
+              <% if @current_my_ticket_item.slot_status_slot_canceled? || @current_my_ticket_item.slot_status_slot_declined? %>
                 <% if @current_my_ticket_item.event_ticket_pack.tpack_can_try_give_a_slot? %>
                   <span class='text-danger'>
                     <b>You can ask this ticket again.</b>
@@ -111,7 +111,7 @@
                 </tr>
               </thead>
               <tbody>
-                <% @current_my_ticket_item.tickets_payments.each_with_index do |tpayment, indx| %>
+                <% @current_my_ticket_item.ticket_payments.each_with_index do |tpayment, indx| %>
                   <tr>
                     <td><%= indx + 1 %></td>
                     <td>

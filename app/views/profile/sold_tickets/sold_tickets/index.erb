@@ -15,7 +15,7 @@
               </div>
               <div class="col-4">
                 <select name='statuses[]' class='form-control form-control-sm select2-multiple select2_multiple_with_no_results' multiple='multiple'>
-                  <% Ticket.ticket_statuses.each do |k, v| %>
+                  <% Ticket.slot_statuses.each do |k, v| %>
                     <option status='<%= k.to_s.ehtml %>' value='<%= v.to_s.ehtml %>' <%= v.in?(@statuses_arr) ? 'selected="selected"' : '' %> >
                       <%= k.to_s.ehtml %>
                     </option>
