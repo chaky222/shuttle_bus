@@ -1,8 +1,7 @@
-# README
-
 ## About
 This is Andrew(chaky22222222@gmail.com) demo project.\
-You can try it on my own domain: [hw.dp.ua](https://hw.dp.ua).\
+You can try it on my own domain: [hw.dp.ua](https://hw.dp.ua).
+
 
 ## Used
 MySQL, Rails6 + ActiveAdmin, JQuery, Bootstrap4
