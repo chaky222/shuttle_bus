@@ -1,32 +1,26 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## About
+This is Andrew(chaky22222222@gmail.com) demo project.\
+You can try it on my own domain: [hw.dp.ua](https://hw.dp.ua).\
 
-Things you may want to cover:
+## Used
+MySQL, Rails6 + ActiveAdmin, JQuery, Bootstrap4
 
-* Ruby version
+### Rails gems and custom libs
+* devise with omniauth
+* active_admin
+* webpush with modificated "notification js worker"
+* image_processing
+* custom js without compilation, bootstrap_4.js with ajax modals, jquery, select2-multiple, datetime-picker
 
-* System dependencies
-sudo apt-get install mysql-server mysql-client libmysqlclient-dev phpmyadmin imagemagick libmagickwand-dev \
-                     git-core zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libxml2-dev \
-                     libxslt1-dev libcurl4-openssl-dev software-properties-common libffi-dev nodejs yarn postfix
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-ssh-keygen -t rsa
-ssh-copy-id -i ~/.ssh/id_rsa.pub test@192.168.1.8
+## Deploy key add instruction
+ssh-keygen -t rsa\
+ssh-copy-id -i ~/.ssh/id_rsa.pub test@192.168.1.8\
 cap production deploy
+
+## ToDo
+Some guys ask me for rspec tests... So... Tests need, but it not planned yet :)
+
 
