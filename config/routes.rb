@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self) rescue ActiveAdmin::DatabaseHitDuringLoad
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: 'pages#main_page'
-  get '/test_path', to: 'pages#test_path'
+  # get '/test_path', to: 'pages#test_path'
+  get '/about'    , to: 'pages#about'
 
   # get '/parties'                                , to: 'pages#front_parties_list'
   # get '/parties/:party_id'                      , to: 'pages#front_parties_edit'

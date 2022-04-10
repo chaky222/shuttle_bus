@@ -12,6 +12,10 @@ class PagesController < ApplicationController
     # render "here!"
   end
 
+  def about
+    add_breadcrumb("About", about_path())
+  end
+
   def demo_push
     message = {
       title: "A message!",
