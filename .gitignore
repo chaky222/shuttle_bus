@@ -80,5 +80,9 @@ yarn-debug.log*
 
 
 
+/test/codeceptjs/output/*
+!/test/codeceptjs/output/.keep
+
+
 
 
